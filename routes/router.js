@@ -3,6 +3,23 @@
 const express = require("express") // import Express เข้ามาทำงาน
 const router = express.Router() // Router จะทำงานเกี่ยวกับระบบรับส่งข้อมูลทั้งหมด
 const Product = require("../models/products") // เรียกใช้งาน model
+const multer = require("multer") // เรียกใข้งาน multer
+
+// การอัปโหลดไฟล์
+const storage = multer.diskStorage({
+    
+    destination:function(req, file, cb) { // การรุบุตำแหน่งที่จะทำการเก็บไฟล์
+        cb(null, "./public/images/products")
+    },
+    filename:function(req, file, cb) { // ระบุชื่อไฟล์ใหม่เพื่อป้องกันการซ้ำกันของชื่อ
+        cb(null, Date.now() + ".jpg")
+    }
+
+})
+
+const upload = multer({ // เริ่มต้นอัปโหลด
+    storage:storage
+})
 
 router.get("/", (req,res)=>{
     
@@ -35,20 +52,23 @@ router.get("/insert", (req,res)=>{
 */
 
 // ตัวรับข้อมูลจาก form แบบ post
-router.post("/insert", (req,res)=>{
+router.post("/insert", upload.single("image"), (req,res)=>{
+    
     // ถา้ส่งข้อมูลแบบ post ให้ใช้ .body แทน .query
     let data = new Product ({
         name:req.body.name,
         price:req.body.price,
-        image:req.body.image,
+        image:req.file.filename,
         description:req.body.description
     })
     Product.saveProduct(data, (err)=>{
         if (err) console.log(err)
         res.redirect("/")
     })
+    
     //console.log(data)
     //res.render("form")
+
 })
 
 module.exports = router // ทำการ export 
