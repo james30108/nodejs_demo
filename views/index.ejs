@@ -15,44 +15,42 @@
         <div class="container">
 
             <h3 class="mt-3">Hello EJS Template Engine</h3>
-        
+            
             <!--การใช้ if else ใน ejs-->
             <% if (age >= 18) { %>
                 <h4>ผ่านเกณฑ์การใช้งาน</h4>
             <% } else { %>
                 <h4>ไม่ผ่านเกณฑ์การใช้งาน</h4>
             <% } %>
-            
             <hr>
             <!--ตัวอย่าง Array-->
-            <p><%= products %></p>
+            <p><%= products1 %></p>
             
             <!--การใช้ for loop-->
-            <% for (i = 0; i < products.length ; i++) { %>
-                <h4>สินค้า : <%= products[i] %></h4>
+            <% for (i = 0; i < products1.length ; i++) { %>
+                <h4>สินค้า : <%= products1[i] %></h4>
             <% } %>
-            
-            <hr>
-            <!--การใช้ Foreach-->
-            <% for (index in products) { %>
-                <h4>สินค้า : <%= products[index] %></h4>
-            <% } %>
-        
             <hr>
 
+            <!--การใช้ Foreach-->
+            <% for (index in products1) { %>
+                <h4>สินค้า : <%= products1[index] %></h4>
+            <% } %>
+            <hr>
+            
             <div class="row my-3">
                 <!--ข้อมูลแบบ Object-->
                 <!--ใช้ foreach มาแสดงผล Object-->
-                <% Object.values(products2).forEach(function(item) { %> 
+                <% Object.values(products).forEach(function(item) { %> 
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card h-100">
-                        <a href="/product"><img class="card-img-top" src="<%= item.image %>" alt="" /></a>
+                        <a href="/<%= item._id %>"><img class="card-img-top" src="/images/products/<%= item.image %>" alt="" /></a>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a href=/product"><%= item.name %></a>
+                                <a href="/<%= item._id %>"><%= item.name %></a>
                             </h4>
                             <h5>ราคา <%= item.price %> บาท</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt reprehenderit ea iure, rerum debitis ab voluptate delectus doloribus</p>
+                            <p class="card-text"><%= item.description %></p>
                         </div>
                     </div>
                 </div>
